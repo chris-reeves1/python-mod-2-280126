@@ -191,8 +191,8 @@ TODO:
 - Class lab
 - RPS class based design.
 - Research/reading/revision
-- finish previous tasks. 
 - fix broken script practice. 
+- finish previous tasks. 
 
 # ADVANCED:
 
