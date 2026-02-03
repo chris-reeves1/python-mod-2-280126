@@ -153,3 +153,150 @@ def main()
 
 if __name__ == "__main__":
     main()
+
+
+
+
+solution:
+
+
+# Fixes to find: 10
+
+class Student:
+    def __init__(self, student_id: str, name: str):
+        self.student_id = student_id
+        self.name = name
+        self._scores: list[float] = []
+        self._avg_cache: float | None = None
+
+    def add_score(self, score: float) -> None:
+        score_f = float(score)
+        if score_f < 0 or score_f > 100:
+            raise ValueError("Score out of range")
+        self._scores.append(score_f)
+        self._avg_cache = None  # invalidate cached average (advanced fix)
+
+    @property
+    def average(self) -> float:
+        if self._avg_cache is not None:
+            return self._avg_cache
+        if len(self._scores) == 0:
+            self._avg_cache = 0.0
+            return self._avg_cache
+        self._avg_cache = sum(self._scores) / len(self._scores)
+        return self._avg_cache
+
+    @property
+    def scores(self) -> list[float]:
+        return list(self._scores)
+
+
+class Classroom:
+    def __init__(self, course_code: str):
+        self.course_code = course_code
+        self.students: dict[str, Student] = {}
+
+    def add_student(self, student: Student) -> None:
+        if student.student_id in self.students:
+            raise ValueError("Duplicate student_id")
+        self.students[student.student_id] = student
+
+    def get_student(self, student_id: str) -> Student | None:
+        return self.students.get(student_id)
+
+    def all_students(self) -> list[Student]:
+        return list(self.students.values())
+
+
+class GradeBook:
+    def __init__(self, classroom: Classroom):
+        self.classroom = classroom
+
+    def record_score(self, student_id: str, score: float) -> None:
+        student = self.classroom.get_student(student_id)
+        if student is None:
+            raise KeyError("Unknown student")
+        student.add_score(score)
+
+    def class_average(self) -> float:
+        students = self.classroom.all_students()
+        total = 0.0
+        count = 0
+        for s in students:
+            total += sum(s.scores)
+            count += len(s.scores)
+        return (total / count) if count else 0.0
+
+    def top_students(self, n: int = 2) -> list[Student]:
+        students = self.classroom.all_students()
+        students.sort(key=lambda s: s.average, reverse=True)
+        return students[:n]
+
+    def export_csv(self, filepath: str) -> None:
+        header = ["student_id", "name", "average", "scores"]
+        lines = [",".join(header)]
+        for s in self.classroom.all_students():
+            avg = f"{s.average:.2f}"
+            scores = ";".join(str(int(x)) if float(x).is_integer() else str(x) for x in s.scores)
+            row = [s.student_id, s.name, avg, scores]
+            lines.append(",".join(row))
+        with open(filepath, "w", encoding="utf-8", newline="") as f:
+            f.write("\n".join(lines))
+
+
+def print_report(gradebook: GradeBook, label: str) -> None:
+    print(f"=== {gradebook.classroom.course_code} Grade Report: {label} ===")
+    for s in gradebook.classroom.all_students():
+        scores_pretty = [int(x) if float(x).is_integer() else x for x in s.scores]
+        print(f"{s.student_id}\t{s.name}\tavg={s.average:.2f}\tscores={scores_pretty}")
+    print(f"Class average: {gradebook.class_average():.2f}")
+    top = gradebook.top_students(2)
+    print("Top 2 students:", ", ".join([f"{s.name} ({s.average:.2f})" for s in top]))
+    print()
+
+
+def main():
+    classroom = Classroom("CS101")
+    students_data = [
+        ("s001", "Ada"),
+        ("s002", "Linus"),
+        ("s003", "Grace"),
+        ("s004", "Ken"),
+    ]
+    for sid, nm in students_data:
+        classroom.add_student(Student(sid, nm))
+
+    gradebook = GradeBook(classroom)
+
+    midterm_scores = {
+        "s001": [88],
+        "s002": [100],
+        "s003": [73, 85],
+        "s004": [60],
+    }
+    for sid, scores in midterm_scores.items():
+        for sc in scores:
+            gradebook.record_score(sid, sc)
+
+    print_report(gradebook, "Midterm")
+
+    final_scores = {
+        "s001": [94, 76],
+        "s002": [92],
+        "s003": [91, 89],
+        "s004": [70],
+    }
+    for sid, scores in final_scores.items():
+        for sc in scores:
+            gradebook.record_score(sid, sc)
+
+    print_report(gradebook, "Final")
+    gradebook.export_csv("classroom_report.csv")
+    print("Exported report to classroom_report.csv")
+
+
+if __name__ == "__main__":
+    main()
+
+
+

@@ -398,3 +398,272 @@ User = create_model("User", user_schema)
 
 user1 = User(name="chris", email="chris@chris.com", is_admin=True)
 print(user1)
+
+
+challenges solutions:
+
+#1. Create a Rectangle class with attributes length and width. 
+#Add methods to calculate the area and perimeter of the rectangle. 
+
+#class Rectangle:
+#    def __init__(self, length, width)
+#        self.length = length
+#        self.width = width
+
+#    def area(self):
+#        return self.length * self.width
+    
+ #   def perimeter(self):
+ #       return 2 * (self.length + self.width)
+
+#rect = Rectangle(5, 10)
+#print(rect.area())
+#print(rect.perimeter())        
+
+#2. Create a BankAccount class with attributes account_number and balance. 
+#Add methods to deposit and withdraw money from the account. 
+
+class BankAccount:
+    def __init__(self, account_number, balance=0):
+        self.account_number = account_number
+        self.balance = balance
+
+    def deposit(self, amount):
+        self.balance += amount
+
+    def withdraw(self, amount):
+        if amount > self.balance:
+            print("insufficient funds")
+        else:
+            self.balance -= amount
+
+    def get_balance(self):
+        return self.balance
+
+acct = BankAccount("1234")
+
+print(acct.get_balance())
+acct.deposit(100)
+print(acct.get_balance())
+acct.withdraw(50)
+print(acct.get_balance())
+acct.withdraw(1000)
+
+
+
+
+#3. Create a Car class with attributes make, model, and year. 
+#Add methods to get and set the values of the attributes. 
+
+class Car:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+
+    def get_make(self):
+        return self.make
+
+    def set_make(self, make):
+        self.make = make
+
+    def get_model(self):
+        return self.model
+
+    def set_model(self, model):
+        self.model = model
+
+    def get_year(self):
+        return self.year
+
+    def set_year(self, year):
+        self.year = year
+
+    def __str__(self):
+        return f"{self.make} {self.model} {self.year}"
+
+car = Car("ford", "focus", 2000)
+
+print(car.get_make())
+print(car)
+car.set_make("toyota")
+car.set_model("pickup")
+car.set_year(2005)
+print(car)
+
+#4. Create a Product class with attributes name, price, and quantity. 
+#Add methods to calculate the total value of the product (price * quantity) 
+#and add or remove items from the product inventory. 
+
+class Product:
+    def __init__(self, name, price, quantity):
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+    def total_value(self):
+        return self.price * self.quantity
+
+    def add_items(self, quantity):
+        self.quantity += quantity
+
+    def remove_items(self, quantity):
+        if quantity > self.quantity:
+            print("not enough stock")
+        else:
+            self.quantity -= quantity
+
+    def __str__(self):
+        return f"{self.name} {self.price} {self.quantity}"
+
+
+prod = Product("macbook", 1000, 5)
+
+print(prod.total_value())
+prod.add_items(5)
+print(prod.quantity)
+prod.remove_items(9)
+print(prod.quantity)
+print(prod) 
+
+
+lab:
+
+# Task 2
+
+class Students:
+    def __init__(self, name, age, class_="classroom"):
+        self.name = name
+        self.age = age
+        self.class_ = class_
+
+    def average_test_score(self, score_1, score_2, score_3):
+        x = (score_1 + score_2 + score_3) /300 * 100
+        return f"{self.name} - avergae test score is {x}%"
+    
+student_1 = Students("person", 5)
+
+print(student_1.average_test_score(20, 60, 60))
+
+# task 2 - improved:
+
+class Students:
+    def __init__(self, name, age, class_="classroom"):
+        self.name = name
+        self.age = age
+        self.class_ = class_
+
+    def average_test_score(self, scores):
+        total_score = sum(scores)
+        average_percentage = total_score / (len(scores) * 100) * 100
+        return f"{self.name} - average test score is {average_percentage}%"
+
+student_1 = Students("person", 5)
+print(student_1.average_test_score([20, 60, 60]))
+
+
+# task 3
+
+class Bird:
+    def __init__(self, name, wingspan):
+        self.name = name
+        self.wingspan = wingspan
+
+    def fly(self):
+        print(f"{self.name} is flying with a wingspan of {self.wingspan} cm")
+
+    def __str__(self):
+        return f"{self.name} ({self.__class__.__name__})"
+
+class Owl(Bird):
+    def __init__(self, name, wingspan, nocturnal=True):
+        super().__init__(name, wingspan)
+        self.nocturnal = nocturnal
+
+    def hoot(self):
+        print(f"{self.name} is hooting")
+
+    def __str__(self):
+        return super().__str__() + f" - nocturnal: {self.nocturnal}"
+    
+class Dodo(Bird):
+    def __init__(self, name, wingspan, extinct=True):
+        super().__init__(name, wingspan)
+        self.extinct = extinct
+
+    def __str__(self):
+        return super().__str__() + f" - extinct: {self.extinct}"
+    
+
+
+bird1 = Bird("eagle", 20)
+owl1 = Owl("barn owl", 90)
+dodo1 = Dodo("the dodo", 100)
+
+
+bird1.fly()
+print(bird1)
+
+owl1.fly() 
+owl1.hoot()
+print(owl1)
+
+dodo1.fly()
+print(dodo1)
+
+
+# improved:
+
+class Bird:
+    def __init__(self, name, wingspan):
+        self.name = name
+        self.wingspan = wingspan
+
+    def fly(self):
+        print(f"{self.name} is flying with a wingspan of {self.wingspan} cm")
+
+    def __str__(self):
+        return f"{self.name} ({self.__class__.__name__}), {id(self)}, {self.__dict__}"
+
+class Owl(Bird):
+
+    nocturnal = True
+
+    def __init__(self, name, wingspan):
+        super().__init__(name, wingspan)
+
+    def hoot(self):
+        print(f"{self.name} is hooting")
+
+    def __str__(self):
+        return super().__str__() + f" - nocturnal: {self.nocturnal}"
+    
+class Dodo(Bird):
+
+    extinct = True
+
+    def __init__(self, name, wingspan):
+        super().__init__(name, wingspan)
+        
+    def fly(self):
+        print(f"{self.name} doesnt fly")
+
+    def __str__(self):
+        return super().__str__() + f" - extinct: {self.extinct}"
+    
+
+
+bird1 = Bird("eagle", 20)
+owl1 = Owl("barn owl", 90)
+dodo1 = Dodo("the dodo", 100)
+
+
+bird1.fly()
+print(bird1)
+
+owl1.fly() 
+owl1.hoot()
+print(owl1)
+
+dodo1.fly()
+print(dodo1)
