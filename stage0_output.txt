@@ -1,4 +1,8 @@
-time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-100 result=OK
-time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-200 result=NOT_OK
-time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-100 result=NOT_OK
-time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-999 result=OK
+id=1 time=2026-02-03T16:00:59Z system=auth_service user_id=user-100 user_status=known outcome=success
+id=2 time=2026-02-03T16:00:59Z system=auth_service user_id=user-200 user_status=known outcome=failure
+id=3 time=2026-02-03T16:00:59Z system=auth_service user_id=user-100 user_status=known outcome=failure
+id=4 time=2026-02-03T16:00:59Z system=auth_service user_id=user-999 user_status=unknown outcome=success
+id=f6626d37981545569d0c7b6603e959db time=2026-02-03T16:10:30Z system=auth_service user_id=user-100 user_status=known outcome=success
+id=ce8a1059fb3f42dab8f6b3d27d3bb98d time=2026-02-03T16:10:30Z system=auth_service user_id=user-200 user_status=known outcome=failure
+id=6cccddef9ce54616ba3ad7c0dcca0173 time=2026-02-03T16:10:30Z system=auth_service user_id=user-100 user_status=known outcome=failure
+id=8afad08d0e184fb4a9202aa51c4919bd time=2026-02-03T16:10:30Z system=auth_service user_id=user-999 user_status=unknown outcome=success
