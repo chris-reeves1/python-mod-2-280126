@@ -1,0 +1,4 @@
+time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-100 result=OK
+time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-200 result=NOT_OK
+time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-100 result=NOT_OK
+time=datetime.datetime(2026, 2, 3, 10, 17, 4, 458069) user=user-999 result=OK

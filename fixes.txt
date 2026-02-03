@@ -1,0 +1,38 @@
+fixes needed:
+
+Major:
+1) Timestamp:
+        - do per event not batched. 
+        - format - string, utc with a z. (timezone) 
+2) One event per line - bring it into the for loop. 
+3) Change append-only logging. 
+
+External input option:
+    - default attempts list as backup.
+    cli args for: 
+        -- input - choose the input file to use. 
+
+headers for fields
+
+auto-increment event-ids 
+
+Others:
+- break into small readable functions
+- fix imports 
+- Use a context manager for the file (close it!)
+- user 999 problem - flag to say known/unknown user.
+- clean up prints
+- docstrings, comments, full - annotations. 
+- naming conventions. 
+- improve readability.  
+- team name added to log??? 
+- change language to more professional. 
+- file object improvements. 
+- Ensure main loop runs in a run guard (doesnt when imported)
+
+
+basic validation on input data. 
+simple error handling. 
+
+Think about exit codes. 
+
